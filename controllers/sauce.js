@@ -4,34 +4,18 @@ const fs = require('fs');
 
 // Get all sauces
 exports.getAllSauces = (req, res, next) => {
-  Sauce.find().then(
-    (sauces) => {
-      res.status(200).json(sauces);
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
+  Sauce.find()
+    .then((sauces) => { res.status(200).json(sauces); })
+    .catch((error) => { res.status(400).json({ error: error }); });
 };
 
 // Get only one sauce by Id
 exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({
-    _id: req.params.id
-  }).then(
-    (sauce) => {
-      res.status(200).json(sauce);
-    }
-  ).catch(
-    (error) => {
-      res.status(404).json({
-        error: error
-      });
-    }
-  );
+  Sauce.findOne({ _id: req.params.id })
+    .then((sauce) => { res.status(200).json(sauce); })
+    .catch((error) => {
+      res.status(404).json({ error: error });
+    });
 };
 
 // Create new sauce
@@ -42,7 +26,7 @@ exports.createSauce = (req, res, next) => {
   const sauce = new Sauce({
     ...sauceObject,
     userId: req.auth.userId,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
   });
 
   sauce.save()
@@ -98,11 +82,11 @@ exports.likeDislike = (req, res, next) => {
   let like = req.body.like;
 
   if (like === 1) {
-    Sauce.updateOne({ _id: req.params.userId }, { $push: { usersLiked: req.body.userId }, $inc: { likes: like++ } })
+    Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: like++ }, $push: { usersLiked: req.body.userId } })
       .then(() => res.status(200).json({ message: 'Nice one !' }))
       .catch(error => res.status(400).json({ error }));
   } else if (like === -1) {
-    Sauce.updateOne({ _id: req.params.userId }, { $push: { usersLiked: req.body.userId }, $inc: { dislikes: like++ * -1 } })
+    Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: like++ * -1 }, $push: { usersDisliked: req.body.userId } })
       .then(() => res.status(200).json({ message: 'I\'m too weak for that  !' }))
       .catch(error => res.status(400).json({ error }));
   } else {
