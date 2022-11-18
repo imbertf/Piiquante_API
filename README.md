@@ -24,11 +24,11 @@ L'objectif de ce projet est de développer une API, pour la marque de condiments
 ## Installation
 
 ### Backend
-Demarrer le serveur : A partir du fichier backend, taper la commande "npm start".
+Demarrer le serveur : A partir du fichier backend, taper la commande "**npm start**".
 Par défault : *http://localhost:3000/*
 
 ### Frontend
-Demarrer le serveur : A partir du fichier frontend, taper la commande "npm start".
+Demarrer le serveur : A partir du fichier frontend, taper la commande "**npm start**".
 Par défault : *http://localhost:4200/*
 
 ## Postman
