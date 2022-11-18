@@ -1,11 +1,12 @@
----------------------------------------- Piiquante - Projet 6 de la formation Web Developer OpenclassRooms ----------------------------------------
+# Piiquante - Projet 6 de la formation Web Developer OpenclassRooms 
 
+![Piiquante logo]("C:\Users\fimbe\Desktop\Administratif\Formation\OpenClassRoom\Projets\P6\piiquante_logo.jpg")
 L'objectif de ce projet est de développer une API, pour la marque de condiments à base de piment "Piiquante", une application web de critique des sauces piquantes appelée « Hot Takes » .
 
 
----------------------------------------- Dependencies ----------------------------------------
+## Dependencies
 
-## Backend
+### Backend
 
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
@@ -19,23 +20,22 @@ L'objectif de ce projet est de développer une API, pour la marque de condiments
     "multer": "^1.4.5-lts.1",
     "password-validator": "^5.3.0"
 
----------------------------------------- Installation ----------------------------------------
+## Installation
 
-## Backend
+### Backend
 Demarrer le serveur : A partir du fichier backend, taper la commande "npm start".
-Par défault : http://localhost:3000/
+Par défault : *http://localhost:3000/*
 
-## Frontend
+### Frontend
 Demarrer le serveur : A partir du fichier frontend, taper la commande "npm start".
-Par défault : http://localhost:4200/
+Par défault : *http://localhost:4200/*
 
+## Postman
 
----------------------------------------- Postman ----------------------------------------
-
-## Routes
+### Routes
 Les routes nécéssitent une authentification par TOKEN (jwt)
 
-## Routes POST
+### Routes POST
 login: http://localhost:3000/api/auth/login
 
     body : 
@@ -54,16 +54,19 @@ signup: http://localhost:3000/api/auth/signup
 
 postSauce: http://localhost:3000/api/sauces
 
-## Routes GET
+### Routes GET
 
 getAll: http://localhost:3000/api/sauces
 
 getOne: http://localhost:3000/api/sauces/:id
 
-## Routes PUT
+### Routes PUT
 
 putOne: http://localhost:3000/api/sauces/:id
 
-## Routes DELETE
+### Routes DELETE
 
 deleteOne: http://localhost:3000/api/sauces/:id
+
+## Security
+
