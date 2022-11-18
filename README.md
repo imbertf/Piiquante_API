@@ -71,15 +71,15 @@ deleteOne: http://localhost:3000/api/sauces/:id
 
 ## Security
 
-bcrypt : hash le mot de passe
-dotenv : stocke les informations sensibles en dehors de l'application
-email-validator : test l'email de l'utilisateur et valide son format
-password-validator : test le mot de passe de l'utilisateur et valide son format
-helmet : définit des en-têtes HTTP pour sécuriser l'application Express
-JSWT : JSon Web Token, sécurise l'authentification par l'utilisation d'un TOKEN
-express-rate-limit : limite le nombre de requêtes envoyées par l'utilisateur
+- bcrypt : hash le mot de passe
+- dotenv : stocke les informations sensibles en dehors de l'application
+- email-validator : test l'email de l'utilisateur et valide son format
+- password-validator : test le mot de passe de l'utilisateur et valide son format
+- helmet : définit des en-têtes HTTP pour sécuriser l'application Express
+- JSWT : JSon Web Token, sécurise l'authentification par l'utilisation d'un TOKEN
+- express-rate-limit : limite le nombre de requêtes envoyées par l'utilisateur
 
 ### Contact
 
-github : https://github.com/imbertf
-mail : f.imbert4@gmail.com
+- github : https://github.com/imbertf
+- mail : f.imbert4@gmail.com
