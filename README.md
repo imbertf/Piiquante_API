@@ -1,6 +1,6 @@
 # Piiquante - Projet 6 de la formation Web Developer OpenclassRooms 
 
-![Piiquante logo]("C:\Users\fimbe\Desktop\Administratif\Formation\OpenClassRoom\Projets\P6\piiquante_logo.jpg")
+![Piiquante logo](./images/piiquante_logo.jpg")
 L'objectif de ce projet est de développer une API, pour la marque de condiments à base de piment "Piiquante", une application web de critique des sauces piquantes appelée « Hot Takes » .
 
 
