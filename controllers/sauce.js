@@ -113,7 +113,7 @@ exports.likeDislike = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
         if (!sauce.usersDisliked.includes(req.body.userId)) {
-          Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: like++ * -1 }, $push: { usersDisliked: req.body.userId } })
+          Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: like-- }, $push: { usersDisliked: req.body.userId } })
             .then(() => res.status(200).json({ message: 'I\'m too weak for that  !' }))
             .catch(error => res.status(400).json({ error }));
         } else {
