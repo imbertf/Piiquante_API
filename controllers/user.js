@@ -1,8 +1,11 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-// Create new user account
+// Create new user account calling hash function from bcrypt
+// asunc function that callback Promise with generated hash
+// create and save user in database
 exports.signup = (req, res, next) => {
         bcrypt.hash(req.body.password, 10)
             .then(hash => {
@@ -18,6 +21,9 @@ exports.signup = (req, res, next) => {
 };
 
 // Allow connexion to user account
+// verify if mail provided by user exist in database
+// compare funtion from bcrypt compare password provided by user with the one present in database
+// if password exist send back 200 response with user ID and TOKEN
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then(user => {
@@ -33,8 +39,8 @@ exports.login = (req, res, next) => {
                         userId: user._id,
                         token: jwt.sign(
                             { userId: user._id },
-                            'RANDOM_TOKEN_SECRET',
-                            { expiresIn: '24h' }
+                            process.env.SECRET_TOKEN,
+                            { expiresIn: '1h' }
                         )
                     });
                 })

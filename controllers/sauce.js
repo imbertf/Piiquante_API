@@ -20,7 +20,9 @@ exports.getOneSauce = (req, res, next) => {
 
 // Create new sauce
 exports.createSauce = (req, res, next) => {
+  console.log(req.body.sauce);
   const sauceObject = JSON.parse(req.body.sauce);
+
   delete sauceObject._id;
   delete sauceObject._userId;
   const sauce = new Sauce({
@@ -45,10 +47,19 @@ exports.modifySauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       if (sauce.userId != req.auth.userId) {
-        res.status(401).json({ message: 'Not authorized' });
+        res.status(403).json({ message: '403: unauthorized request.' });
       } else {
         Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-          .then(() => res.status(200).json({ message: 'Sauce modified !' }))
+          .then(() => {
+            if (req.file) {
+              const filename = sauce.imageUrl.split('/images/')[1];
+              fs.unlink(`images/${filename}`,
+                (err) => {
+                  if (err) console.log(err);
+                })
+            }
+            res.status(200).json({ message: 'Sauce modified !' })
+          })
           .catch(error => res.status(401).json({ error }));
       }
     })
@@ -62,18 +73,24 @@ exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
       if (sauce.userId != req.auth.userId) {
-        res.status(401).json({ message: 'Not authorized' });
+        res.status(403).json({ message: '403: unauthorized request.' });
       } else {
         const filename = sauce.imageUrl.split('/images/')[1];
-        fs.unlink(`images/${filename}`, () => {
-          Sauce.deleteOne({ _id: req.params.id })
-            .then(() => { res.status(200).json({ message: 'Sauce deleted !' }) })
-            .catch(error => res.status(401).json({ error }));
-        });
-      }
+        Sauce.deleteOne({ _id: req.params.id })
+          .then(() => {
+            fs.unlink(`images/${filename}`,
+              (err) => {
+                if (err) console.log(err);
+                else {
+                  res.status(200).json({ message: 'Sauce deleted !' })
+                }
+              })
+          })
+          .catch(error => { console.log(error); res.status(401).json({ message: error }) });
+      };
     })
     .catch(error => {
-      res.status(500).json({ error });
+      res.status(400).json({ error });
     });
 };
 
@@ -82,13 +99,27 @@ exports.likeDislike = (req, res, next) => {
   let like = req.body.like;
 
   if (like === 1) {
-    Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: like++ }, $push: { usersLiked: req.body.userId } })
-      .then(() => res.status(200).json({ message: 'Nice one !' }))
-      .catch(error => res.status(400).json({ error }));
+    Sauce.findOne({ _id: req.params.id })
+      .then(sauce => {
+        if (!sauce.usersLiked.includes(req.body.userId)) {
+          Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: like++ }, $push: { usersLiked: req.body.userId } })
+            .then(() => res.status(200).json({ message: 'Nice one !' }))
+            .catch(error => res.status(400).json({ error }));
+        } else {
+          res.status(400).json({ message: "request error" })
+        }
+      });
   } else if (like === -1) {
-    Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: like++ * -1 }, $push: { usersDisliked: req.body.userId } })
-      .then(() => res.status(200).json({ message: 'I\'m too weak for that  !' }))
-      .catch(error => res.status(400).json({ error }));
+    Sauce.findOne({ _id: req.params.id })
+      .then(sauce => {
+        if (!sauce.usersDisliked.includes(req.body.userId)) {
+          Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: like++ * -1 }, $push: { usersDisliked: req.body.userId } })
+            .then(() => res.status(200).json({ message: 'I\'m too weak for that  !' }))
+            .catch(error => res.status(400).json({ error }));
+        } else {
+          res.status(400).json({ message: "request error" })
+        }
+      });
   } else {
     Sauce.findOne({ _id: req.params.id })
       .then(sauce => {

@@ -3,9 +3,14 @@ const multer = require('multer');
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
-  'image/png': 'png'
+  'image/png': 'png',
+  'image/webp': 'webp'
 };
 
+// Manage entering files in HTTP requests
+// desination give path to save files
+// filename create name using original name, remove spaces, add time stamp and
+// use MIME_TYPES const to manage extension
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'images');

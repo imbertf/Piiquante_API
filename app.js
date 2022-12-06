@@ -48,6 +48,7 @@ app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 // Images management
+// Allow to load files stacked in "images" repository
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
